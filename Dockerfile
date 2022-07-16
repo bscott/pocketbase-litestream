@@ -29,8 +29,10 @@ ADD https://github.com/benbjohnson/litestream/releases/download/v0.3.8/litestrea
 RUN tar -C /usr/local/bin -xzf /tmp/litestream.tar.gz
 
 # Notify Docker that the container wants to expose a port.
-EXPOSE 8090
-
+# Pocketbase serve port
+# For the litestream server via Prometheus
+EXPOSE 8090 
+EXPOSE 9090 
 
 # Copy Litestream configuration file & startup script.
 COPY etc/litestream.yml /etc/litestream.yml
