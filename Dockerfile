@@ -11,7 +11,10 @@ RUN apk add --no-cache \
     unzip \
     wget \
     zip \
-    zlib-dev
+    zlib-dev \
+    bash
+
+RUN mkdir -p /pb_data
 
 # Download Pocketbase and install it for AMD64
 ADD https://github.com/pocketbase/pocketbase/releases/download/v${POCKETBASE_VERSION}/pocketbase_${POCKETBASE_VERSION}_linux_amd64.zip /tmp/pocketbase.zip
@@ -28,5 +31,13 @@ RUN tar -C /usr/local/bin -xzf /tmp/litestream.tar.gz
 # Notify Docker that the container wants to expose a port.
 EXPOSE 8090
 
+
+# Copy Litestream configuration file & startup script.
+COPY etc/litestream.yml /etc/litestream.yml
+COPY scripts/run.sh /scripts/run.sh
+
+RUN chmod +x /scripts/run.sh
+RUN chmod +x /usr/local/bin/litestream
+
 # Start Pocketbase
-CMD [ "/usr/local/bin/pocketbase", "serve" ]
+CMD [ "/scripts/run.sh" ]

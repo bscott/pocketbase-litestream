@@ -1,0 +1,4 @@
+dbs:
+  - path: /pb_data
+    replicas:
+      - url: ${REPLICA_URL}
